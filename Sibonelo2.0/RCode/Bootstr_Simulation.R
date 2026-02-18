@@ -19,8 +19,10 @@ hist(pdelays,breaks =10,col ='wheat',xlab ='Days',main ="Histogram of payment de
 B = 5000
 # matrix to store the bootstrap samples
 bstr <- matrix(0,ncol=length(pdelays),nrow=B)
-set.seed(202)
+set.seed(2026)
 for(i in 1:B){
+  
+  
   samp = sample(pdelays,size =length(pdelays),replace=TRUE)
   bstr[i,]= samp
 }
@@ -29,7 +31,7 @@ bstrm = apply(bstr,1,mean)
 
 # Distribution of the bootstrapped means
 hist(bstrm,main = 'Bootstrapped means',xlab =expression(bar(X)[b]),breaks =30)
-abline(v = c(obs_mean),col =c('red','green'),lwd =2)
+abline(v = c(obs_mean, 38.5),col =c('red','green'),lwd =2)
 
 
 # POINT ESTIMATES #################
