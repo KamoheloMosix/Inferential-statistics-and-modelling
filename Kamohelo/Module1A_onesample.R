@@ -54,7 +54,7 @@ ubound = obs_mean-se1
 lbound = obs_mean-se2
 cat("95% basic bootstrap CI for mu: ","(",lbound," , ",ubound,")",sep='')
 
-# What if you're interested in the median payment delays?
+# What if you're interested in the median payment delays?Thats a good question atseba marr
 
 # HYPOTHESIS TESTING ############
 obs_mean-38
