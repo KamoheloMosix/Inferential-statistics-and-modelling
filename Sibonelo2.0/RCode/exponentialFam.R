@@ -40,5 +40,5 @@ summary(m3)
 summary(m4)
 
 plot( jitter(LG) ~ jitter(Slope), data = lawn.bunch.grass, las = 1,
-      xlab = 'Slope', pch= 13, col = 'pink',
+      xlab = 'Slope', pch= 14, col = 'pink',
       ylab = 'lawn grass', cex.lab=1.5, cex.axis = 1.5, yaxt = 'n')
