@@ -1,0 +1,4 @@
+run
+`source labvenv/bin/activate
+pip install ipykernel
+python -m ipykernel install --user --name=labvenv`
