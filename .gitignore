@@ -1,4 +1,12 @@
 *Zone*
 *.pdf
 *.docx
+
 Sibonelo2.0/Notes/
+
+# some env stuff aish
+labvenv/
+venv/
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
