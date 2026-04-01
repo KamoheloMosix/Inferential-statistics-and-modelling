@@ -1,9 +1,11 @@
+
+
 data<- lawn.bunch.grass
 
 # getting the number of each type of community (type of grass)
 num_Community=table(data$Community_) 
 options(digits = 2)
-# getting those numbers as proportions for a good look at overoll spread of data
+# getting those numbers as proportions for a good look at overall spread of data
 prop_comunity=prop.table(num_Community) 
 
 
@@ -18,8 +20,14 @@ View(dat_LG)
 plot(data$Slope , dat_LG)
 plot(jitter(data$Slope) , jitter(dat_LG)) # this is to get a better picture by using a random explantory varible in data
 
-# Modeling the relationship of the probablioty of LG and  how it changes with Slope 
+# Modeling the relationship of the probability of LG and  how it changes with Slope 
 
 t1<- table(dat_LG, data$Slope)
 t2 <- prop.table(t1,2)
 plot(0:19 , t2[2,])
+
+# fitting a logistic Regression model for better explanation and fitting of data
+
+m1 <- glm(dat_LG ~ data$Slope, family = binomial, data = data)
+summary(m1)
+
