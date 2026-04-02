@@ -1,44 +1,34 @@
-data<- lawn.bunch.grass
-head(data)
-names(data)
-table(data$Community_)
-prop.table(table(data$Community_))
+grassData <- data
+options(digits = 2)
+# check out what the data has as it's columns
+names(grassData)
 
-round(prop.table(table(data$Community_))*100, 2)
+#check what's in the community variable in the form of a table, will list everything found there
+table(grassData$Community_)
 
-lawn.bunch.grass$LG <- ifelse(data$Community_ == "LG", 1, 0)
-lawn.bunch.grass$Height <- ifelse(data$Grass_heig == "patchy", 1, 0)
-t1 <- with(lawn.bunch.grass, table(LG, Slope))
-t2 <- prop.table(t1, 2)
+# to get the proportions of grass types in data
+prop.table(table(grassData$Community_))
 
-# Second-sitting hehe
+# we note that roughly 20% of the grass found in pixels is Lawn grass
+# we are only interested in finding out which factors affect the presence of lawn grass hence we will model it and only it hecne we crearte a bin var for it
 
-# This is what we use to split up the plotting area so that we can plot multiple graphs at the 
-# same time
-# par( mfrow = c( rows, columns), mar(margin), mgp(lines away from the plotting area)
+grassData$LG <- ifelse(grassData$Community_ == 'LG', 1, 0)
 
-par(mar = c(5.5, 5.5, 1, 1), mgp = c(4, 1, 2))
-plot(0:19, t2[2,], las = 1, cex.axis = 1.5, cex.lab = 1.5,
-     ylab = "Proportion lawn grass", pch = 19, col = 'firebrick3',
-     xlab = 'Slope')
+# with LG being the response var, let us investigate it's relationship with the Slope of pixel, so we create a table with strictly those 2 vars
 
-t11 <- with(lawn.bunch.grass, table(Height, Slope))
-t22 <- prop.table(t11, 2)
+# creates a cross-tabulation table, bascially counts of lawn grass(LG) for different kinds of slope values
+slp_table <- with(grassData, table(LG, Slope))
 
-par(mar = c(5.5, 5.5, 1, 1), mgp = c(4, 1, 2))
-plot(0:19, t2[2,], las = 1, cex.axis = 1.5, cex.lab = 1.5,
-     ylab = "Proportion patchy grass", pch = 19, col = 'firebrick3',
-     xlab = 'Slope')
+# now i want to get the proportion of LG at each slope value, 2 says use columns for this
+prop_table <- prop.table(slp_table, 2)
 
-m1 <- glm(LG ~ Slope, family = binomial(link = "logit"), data = lawn.bunch.grass)
-m2 <- glm(Height ~ Slope, family = binomial(link = "logit"), data = lawn.bunch.grass)
-m3 <- glm(lawn.bunch.grass$Height ~ lawn.bunch.grass$Fire5698, family = binomial(link = "logit"))
-m4 <- glm(LG ~ Slope+Fire5698, family = binomial(link = "logit"), data = lawn.bunch.grass)
-summary(m1)
-summary(m2)
-summary(m3)
-summary(m4)
+# partition the plotting space
+par(mar = c(5.5, 5.5, 1, 1), mgp = c(4, 1, 0))
+plot(0:19, prop_table[2,], las = 1, cex.axis = 1.5, cex.lab = 1.5,
+     ylab = "proportion lawn grass", pch = 19, col = "firebrick3",
+     xlab = "slope")
 
-plot( jitter(LG) ~ jitter(Slope), data = lawn.bunch.grass, las = 1,
-      xlab = 'Slope', pch= 14, col = 'pink',
-      ylab = 'lawn grass', cex.lab=1.5, cex.axis = 1.5, yaxt = 'n')
+# fit the model with response = LG, explanatory var = Slope, see the relationship between these 2
+# since the response is binary, we will use family = 'binomial'
+mod_slope <- glm(LG ~ Slope, data = grassData, family = 'binomial')
+summary(mod_slope)
