@@ -16,8 +16,7 @@ SplitData <- function(data, splits){
   
   shuffled_ind <- sample(1:n.obs)
   
-  split_ind <- c(round(splits[1]*n.obs), 
-                 round(splits[1]*n.obs) + round(splits[2]*n.obs))
+  split_ind <- c(round(splits[1]*n.obs), round(splits[1]*n.obs) + round(splits[2]*n.obs))
   
   train_ind <- shuffled_ind[1:split_ind[1]]
   val_ind <- shuffled_ind[(split_ind[1] + 1):split_ind[2]]
@@ -32,17 +31,18 @@ SplitData <- function(data, splits){
   }
 }
 
-#splits data into K folds
+#splits data into K folds and returns a matrix of mashed up indexes basically
 Kfoldsplit <- function(n.obs, k){
   
   # Number of observations per fold
   
   wind <- n.obs%/%k     # integer division operator, rounds result down to the nearest whole number)            
   
+  # generate random order of observations without replacement
   origin <- sample(1:n.obs, n.obs, replace = F)
 
   # Organises indices into a matrix to define k-folds (each fold corresponds to a row)
-  indexes <- matrix(origin, k, wind, byrow = T) 
+  indexes <- matrix(origin, k, wind, byrow = T)
   indexes
 }
 
@@ -56,6 +56,8 @@ cross_val <- function(data, k = 5, poly = 2){
   
   # A: Empty result matrices
   
+  
+  # create val.error and train.error to be a list with 'k' zeros
   val.error <- rep(0, k)                # Validation error
   train.error <- rep(0, k)              # Training error
   
@@ -65,6 +67,7 @@ cross_val <- function(data, k = 5, poly = 2){
     
     # Separate training and validation indices and create data vectors
     
+    # saying list[-i, ], removes the row at index i, so pretty cool
     train_ind <- c(sets[-i, ])                   # Vector of training indices
     val_ind <- sets[i, ]                         # Vector of validation indices
     train.y <- data[train_ind,"Y"]                      # Training Ys

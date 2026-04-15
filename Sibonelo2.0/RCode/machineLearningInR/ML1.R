@@ -15,7 +15,7 @@ library(rgl) # Allow the rotation of 3d plots
 
 ## 1A: Simulate a dataset. Create n = 100 (age, strength) observations.
 
-### i: Create random ages
+### i: Create random ages from a uniform distribution with a =18 and b = 25
 
 x_age <- runif(n = 100, min = 18, max = 25)
 
@@ -26,8 +26,11 @@ true_f <- function(age){
 }
 
 ### iii: Create corresponding age-related strengths
-
+y_age <- true_f(x_age)
 y_strength <- true_f(x_age) + rnorm(100, mean = 0, sd = 4)   # True f + random error
+
+
+# Cbind -> column bind-basically equally sized lists
 
 head(cbind(x_age,y_strength))
 
@@ -35,18 +38,22 @@ head(cbind(x_age,y_strength))
 
 ### i: Plot - Age vs. Strength
 
-plot(y_strength ~ x_age, pch = 20, 
+plot(y_strength ~ x_age, pch = 15,## i like 8 , 15 -> for pch
      main = "Age vs. Strength",
      xlab = "Age", ylab = "Strength")
 
 ### ii: Add true functional line 
 
+# Seq, works like 'range' in python seq(from=start, to=end, by=step)
 x_age_all <- seq(from = 18, to = 25, by = 0.1)
 
+# instead of plot with points,, draws a line instead
 lines(true_f(x_age_all) ~ x_age_all, 
       col = "blue", lwd = 2)
 
 model <- lm(y_strength ~ x_age)
+
+# abline(model), draws line of best-fit from the model
 abline(model, col = "red")
 
 # ----------------------------------------------------------------------------------------------------
@@ -99,6 +106,8 @@ plot3d(x = x_age,
 
 x_age_all <- seq(from = 18, to = 25, by = 0.1)
 x_height_all <- seq(from = 150, to = 190, by = 0.5)
+
+# outer product, take every element in x, with every value in y, then apply function FUN
 z <- outer(x_age_all, x_height_all, FUN = true_f)
 length(x_age_all) ; length(x_height_all) ; dim(z)
 z[1:10,]
