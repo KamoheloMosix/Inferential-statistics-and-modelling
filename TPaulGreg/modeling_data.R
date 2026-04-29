@@ -26,7 +26,7 @@ t1<- table(dat_LG, data$Slope)
 t2 <- prop.table(t1,2)
 plot(0:19 , t2[2,])
 
-# fitting a logistic Regression model for better explanation and fitting of data
+# fitting a logistic Regrgession model for better explanation and fitting of data
 
 m1 <- glm(dat_LG ~ data$Slope, family = binomial, data = data)
 summary(m1)
