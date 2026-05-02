@@ -4,6 +4,11 @@
 
 Sibonelo2.0/Notes/
 
+# to hide some R env data
+*RData
+*Rhistory
+
+
 # some env stuff aish
 labvenv/
 venv/

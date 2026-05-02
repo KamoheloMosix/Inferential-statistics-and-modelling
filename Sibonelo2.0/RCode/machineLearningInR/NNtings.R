@@ -12,6 +12,8 @@ relu <-  function(z) sapply(z, function(x) max(0, x)) # Output range: R+
 
 identity <- function(z) z                             # Output range: R
 
+parabola <- function(x) x^2               #Output range: 5 - Infinity and beyond
+
 # Plot the Activations for z in [-5, 5] ===================================
 
 z_all <- seq(-5, 5, by = 0.01)
@@ -21,7 +23,7 @@ plot(sigmoid(z_all) ~ z_all,             # Sigmoid
      ylab = "Value", 
      xlim = c(-5, 5),
      ylim = c(-1, 1),
-     type = "l",
+     type = "l",        # type='l' says to draw lines and not points 'p', or both 'b'
      col = "black", 
      lty = 1, 
      main = "Activation Functions")
@@ -38,10 +40,12 @@ lines(identity(z_all) ~ z_all,          # Identity
       col = "green", 
       lty = 4)
 
+lines(parabola(z_all) ~ z_all, col = 'darkgreen', lty = 5)
+
 legend("topleft", 
-       legend = c("sigmoid", "tanh", "relu", "identity"), 
-       fill = c("black", "blue", "red", "green"), 
-       lty = 1:4)
+       legend = c("sigmoid", "tanh", "relu", "identity", "Sparabola"), 
+       fill = c("black", "blue", "red", "green", 'darkgreen'), 
+       lty = 1:5, cex = 0.6)
 
 sigmoid(-1.5) ; sigmoid(0.8) ; sigmoid(7)
 
@@ -65,7 +69,7 @@ plot(Y ~ X,
      main = "Simulated Dataset")
 
 # 3: Fit a Neural Network =======================================================
-
+install.packages("neuralnet")
 library(neuralnet)
 ?neuralnet
 set.seed(2025)
@@ -117,10 +121,10 @@ plot(Y ~ X,
      main = "Simulated Dataset")
 
 lines(pred1 ~ x_all$X, lty = 1, lwd = 1)      # Predictions: Model 1
-lines(pred2 ~ x_all$X, lwd = 2, lty = 2)      # Predictions: Model 2
+lines(pred2 ~ x_all$X, lwd = 2, lty = 2, col="darkgreen")      # Predictions: Model 2
 
 x_all_v <- unlist(x_all)                 
-lines(fx(x_all$X) ~ x_all_v, lty = 3)         # Known true f
+lines(fx(x_all$X) ~ x_all_v, lty = 3, col = 'red')         # Known true f
 
 legend('topright', 
        legend = c('(7)-network','(7,7)-network', "true f"), 
