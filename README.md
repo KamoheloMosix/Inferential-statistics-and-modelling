@@ -8,3 +8,4 @@ let's all put our best foot forward
 ## Bayes
 Kushubile
 
+Ola gents...let's try to prepare for the exam...*BUT* luckily for us, we weren't hacked hehe
